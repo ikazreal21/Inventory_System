@@ -2,25 +2,17 @@
 
 require_once '../database.php';
 
-session_start();
-
-if(!ISSET($_SESSION["username"])){
-  header('location:../login.php');
-}
-
-
 $search = $_GET['search'] ?? '';
 
 if ($search) {
-    $statement = $pdo->prepare('SELECT * FROM tbl_product WHERE PNAME like :PNAME ORDER BY PDATE DESC');
-    $statement->bindValue(':PNAME', "%$search%");
+    $statement = $pdo->prepare('SELECT * FROM user WHERE firstname like :firstname ORDER BY id DESC');
+    $statement->bindValue(':firstname', "%$search%");
 } else {
-    $statement = $pdo->prepare('SELECT * FROM tbl_product ORDER BY PDATE DESC');
+    $statement = $pdo->prepare('SELECT * FROM user ORDER BY id DESC');
 }
 
 $statement->execute();
 $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -40,19 +32,13 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
     <title>Navitopia</title>
   </head>
   <body>
-    <h1>Products</h1>
-    <p>
-      <a href="viewcart.php" class="btn btn-success">View Cart</a>
-    </p>
-    <p>
-      <a href="../logout.php" class="btn btn-info">Logout</a>
-    </p>
+    <h1>Users</h1>
     <form action="" method="get">
     <div class="input-group mb-3">
       <input
         type="text"
         class="form-control"
-        placeholder="Search Product"
+        placeholder="Search User"
         name="search"
         value="<?php echo $search; ?>"
       />
@@ -65,9 +51,13 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Image</th>
-          <th scope="col">Name</th>
-          <th scope="col">Price</th>
+          <th scope="col">FirstName</th>
+          <th scope="col">LastName</th>
+          <th scope="col">Phone Number</th>
+          <th scope="col">Username</th>
+          <th scope="col">Email</th>
+          <th scope="col">User Type</th>
+          <th scope="col">Status</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
@@ -75,13 +65,15 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
         <?php foreach ($procdata as $i => $item): ?>
           <tr>
           <th scope="row"><?php echo ++$i; ?></th>
+          <td><?php echo $item['firstname']; ?></td>
+          <td><?php echo $item['lastname']; ?></td>
+          <td><?php echo $item['phonenumber']; ?></td>
+          <td><?php echo $item['username']; ?></td>
+          <td><?php echo $item['email']; ?></td>
+          <td><?php echo $item['status']; ?></td>
+          <td><?php echo $item['usertype']; ?></td>
           <td>
-              <img src="<?php echo $item['Pimage']; ?>"  width="300" height="200">
-          </td>
-          <td><?php echo $item['PNAME']; ?></td>
-          <td><?php echo $item['PPRICE']; ?></td>
-          <td>
-            <a href="cart.php?id=<?php echo $item['ID']; ?>" class="btn btn-sm btn-success"> Add to Cart</a>
+            <a href="customerDetails.php?id=<?php echo $item['id']; ?>" class="btn btn-sm btn-success"> View User</a>
           </td>
         </tr>
         <?php endforeach;?>
@@ -89,3 +81,4 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
     </table>
   </body>
 </html>
+
