@@ -1,12 +1,13 @@
 <?php
 
 require_once '../database.php';
-require_once 'functions.php';
+require_once '../admin/functions.php';
+require_once 'validation.php';
 
 $id = $_GET['id'] ?? null;
 
 if (!$id) {
-    header('Location: index.php');
+    header('Location: productsList.php');
     exit;
 }
 
@@ -71,7 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statement->bindValue(':id', $id);
         $statement->execute();
 
-        header('Location: index.php');
+        header('Location: productsList.php');
     }
 
 }
@@ -97,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <body>
     <h1>Update Product <?php echo $prod['PNAME']; ?></h1>
     <p>
-      <a href="index.php" class="btn btn-secondary">Go back</a>
+      <a href="productsList.php" class="btn btn-secondary">Go back</a>
     </p>
     <?php if (!empty($errors)): ?>
       <div class="alert alert-danger">

@@ -1,6 +1,8 @@
 <?php
 
 require_once '../database.php';
+require_once 'validation.php';
+
 
 $search = $_GET['search'] ?? '';
 
@@ -31,6 +33,25 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
 
     <title>Navitopia</title>
   </head>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="index.php">Navitopia</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item active">
+          <a class="nav-link" href="customerList.php">Customer List</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="create_user.php">User Creation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="logout.php">Logout</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
   <body>
     <h1>Users</h1>
     <form action="" method="get">

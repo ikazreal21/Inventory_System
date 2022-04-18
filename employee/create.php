@@ -1,7 +1,8 @@
 <?php
 
 require_once '../database.php';
-require_once 'functions.php';
+require_once '../admin/functions.php';
+require_once 'validation.php';
 
 $errors = [];
 
@@ -50,7 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statement->bindValue(':PTOTAL', $total);
         $statement->bindValue(':PDATE', $date);
         $statement->execute();
-        // header('Location: index.php');
+        header('Location: productsList.php');
     }
 
 }
@@ -76,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <body>
     <h1>Create Product</h1>
     <p>
-      <a href="index.php" class="btn btn-success">Go back</a>
+      <a href="productsList.php" class="btn btn-success">Go back</a>
     </p>
     <?php if (!empty($errors)): ?>
       <div class="alert alert-danger">

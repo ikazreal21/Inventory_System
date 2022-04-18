@@ -10,7 +10,7 @@
     integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x"
     crossorigin="anonymous"
     />
-    <title>Admin Section</title>
+    <title>Employee Section</title>
 </head>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand" href="index.php">Navitopia</a>
@@ -20,10 +20,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <a class="nav-link" href="customerList.php">Customer List</a>
+          <a class="nav-link" href="productsList.php">Products List</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="create_user.php">User Creation</a>
+          <a class="nav-link" href="orderTracking.php">Order Tracking</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="logout.php">Logout</a>
@@ -32,6 +32,6 @@
     </div>
   </nav>
 <body>
-    <H1>Welcome to the Admin Section</H1>
+    <H1>Welcome to the Employee Section</H1>
 </body>
 </html>

@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-require_once 'database.php';
+require_once '../database.php';
 
 if(ISSET($_SESSION["username"])){
-    header('location:order/index.php');
+    header('location:index.php');
   }
 
 try
@@ -13,7 +13,7 @@ try
         if (empty($_POST["username"]) || empty($_POST["password"])) {
             $message = '<label>All fields are required</label>';
         } else {
-            $query = "SELECT * FROM user WHERE username = :username AND password = :password AND status = 'active' AND usertype = 'customer'";
+            $query = "SELECT * FROM user WHERE username = :username AND password = :password AND status = 'active' AND usertype = 'admin'";
             $statement = $pdo->prepare($query);
             $statement->execute(
                 array(
@@ -24,7 +24,7 @@ try
             $count = $statement->rowCount();
             if ($count > 0) {
                 $_SESSION["username"] = $_POST["username"];
-                $_SESSION["usertype"] = 'customer';
+                $_SESSION["usertype"] = 'admin';
                 header("location:login_success.php");
             } else {
                 $message = '<label>Wrong Data or Your Account is Deactivated</label>';
@@ -51,7 +51,7 @@ if (isset($message)) {
     echo '<label class="text-danger">' . $message . '</label>';
 }
 ?>
-                <h3 align="">Navitopia Store</h3><br />
+                <h3 align="">Navitopia Store Admin Pannel</h3><br />
                 <form method="post">
                      <label>Username</label>
                      <input type="text" name="username" class="form-control" />
@@ -61,7 +61,6 @@ if (isset($message)) {
                      <br />
                      <input type="submit" name="login" class="btn btn-info" value="Login" />
                 </form>
-                <a href="register.php">Register</a>
            </div>
            <br />
       </body>

@@ -6,6 +6,8 @@ $statement = $pdo->prepare('SELECT * FROM tbl_cart ORDER BY PROD_DATE DESC');
 $statement->execute();
 $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+
+
 ?>
 
 <!DOCTYPE html>
@@ -60,5 +62,6 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
         <?php endforeach;?>
       </tbody>
     </table>
+
   </body>
 </html>

@@ -1,10 +1,8 @@
 <?php
+
 session_start();
-require_once 'database.php';
-require_once 'mail.php';
-
-
-
+require_once '../database.php';
+require_once '../mail.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($_POST['firstname'] != "" || $_POST['username'] != "" || $_POST['password'] != "") {
@@ -15,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $password = $_POST['password'];
             $phonenumber = $_POST['phonenumber'];
             $email = $_POST['email'];
-            $usertype = 'customer';
+            $usertype = $_POST['usertype'];
             $status = 'active';
             $statement = $pdo->prepare("INSERT INTO user (firstname, lastname, phonenumber,
             username, email, password, usertype, status)
@@ -34,15 +32,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         } catch (PDOException $e) {
             echo $e->getMessage();
         }
-        $_SESSION['message'] = array("text" => "User successfully created.", "alert" => "info");
+        $_SESSION['message'] = array("text" => $_POST['usertype']." successfully created.", "alert" => "info");
         $conn = null;
 
 		$mail->addAddress($_POST['email'], $_POST['firstname']);
 
 		$mail->isHTML(true); 
-		$mail->Subject = 'You are now Register to Navitipia';
-		$mail->Body    = 'You are now REGISTER with a Username of <b>'.$_POST['username'].'</b><br>';
-		$mail->Body = 'Happy Shopping';
+		$mail->Subject = 'You are now have a register account for to Navitipia';
+		$mail->Body    = 'You are now REGISTER with a Username of'.$_POST['username'].'and a User type of'.$_POST['usertype'];
 		if (!$mail->send()) {
 			echo 'Mailer Error: ' . $mail->ErrorInfo;
 		} else {
@@ -70,7 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 	<div class="col-md-3"></div>
 	<div class="col-md-6 well">
-		<h3 class="text-primary">Registration</h3>
+		<h3 class="text-primary">Create Account for Admin and Employee</h3>
 		<hr style="border-top:1px dotted #ccc;"/>
 		<div class="col-md-2"></div>
 		<div class="col-md-8">
@@ -100,9 +97,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					<label>Password</label>
 					<input type="password" class="form-control" name="password" />
 				</div>
-				<br />
+				<select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" name="usertype">
+					<option selected value="employee">Employee</option>
+					<option value="admin">Admin</option>
+				</select>
 				<div class="form-group">
-					<button class="btn btn-primary form-control" name="register">Register</button>
+					<button class="btn btn-primary form-control" name="register">Create Account</button>
 				</div>
 				<a href="login.php">Login</a>
 			</form>

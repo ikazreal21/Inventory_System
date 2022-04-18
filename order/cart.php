@@ -1,5 +1,6 @@
 <?php
 require_once '../database.php';
+require_once 'validation.php';
 
 $id = $_GET['id'] ?? null;
 

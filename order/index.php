@@ -1,13 +1,7 @@
 <?php
 
 require_once '../database.php';
-
-session_start();
-
-if(!ISSET($_SESSION["username"])){
-  header('location:../login.php');
-}
-
+require_once 'validation.php';
 
 $search = $_GET['search'] ?? '';
 
