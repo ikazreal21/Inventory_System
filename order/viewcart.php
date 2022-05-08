@@ -1,11 +1,18 @@
 <?php
 
 require_once '../database.php';
+require_once 'validation.php';
 
-$statement = $pdo->prepare('SELECT * FROM tbl_cart ORDER BY PROD_DATE DESC');
+$statement = $pdo->prepare('SELECT * FROM tbl_cart where CUSTOMER_NAME = :username ORDER BY PROD_DATE DESC');
+
+$statement->bindValue(':username', $_SESSION["username"]);
 $statement->execute();
 $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
 
+$checker = '';
+if (!$procdata) {
+  $checker = 'disabled';
+}
 
 
 ?>
@@ -30,6 +37,9 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
     <h1>Cart</h1>
     <p>
       <a href="index.php" class="btn btn-success">Go Back</a>
+    </p>
+    <p>
+        <a href="order.php" class="btn btn-success" <?php echo $checker ?> >Checkout</a>
     </p>
     <table class="table">
       <thead>

@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imagePath = '';
 
         if ($image) {
-            $imagePath = '../inventory/img/'.randomString(8).'/'.$image['name'];
+            $imagePath = '../inventory/img/'.randomString(8, 1).'/'.$image['name'];
             mkdir(dirname($imagePath));
             move_uploaded_file($image['tmp_name'], $imagePath);
         }

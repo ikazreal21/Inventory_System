@@ -15,7 +15,7 @@ $statement->execute();
 $prod = $statement->fetch(PDO::FETCH_ASSOC);
 
 // echo '<pre>';
-// var_dump($prod);
+// var_dump($_SESSION["username"]);
 // echo '<pre>';
 
 $errors = [];
@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         );
 
         $statement->bindValue(':PIMAGE', $image);
-        $statement->bindValue(':CUSTOMER', '');
+        $statement->bindValue(':CUSTOMER', $_SESSION["username"]);
         $statement->bindValue(':PNAME', $title);
         $statement->bindValue(':PPRICE', $price);
         $statement->bindValue(':PQUAN', $quantity);

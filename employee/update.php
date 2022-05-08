@@ -11,7 +11,6 @@ if (!$id) {
     exit;
 }
 
-
 $statement = $pdo->prepare('SELECT * FROM tbl_product WHERE ID = :id');
 $statement->bindValue(':id', $id);
 $statement->execute();
@@ -20,7 +19,6 @@ $prod = $statement->fetch(PDO::FETCH_ASSOC);
 // echo '<pre>';
 // var_dump($prod);
 // echo '<pre>';
-
 
 $errors = [];
 
@@ -53,11 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $imagePath = $prod['Pimage'];
 
         if ($prod['Pimage']) {
-          unlink($prod['Pimage']);
+            unlink($prod['Pimage']);
         }
 
-        if ($image && $image['tmp_name']) {           
-            $imagePath = '../inventory/img/'.randomString(8).'/'.$image['name'];
+        if ($image && $image['tmp_name']) {
+            $imagePath = '../inventory/img/' . randomString(8, 1) . '/' . $image['name'];
             mkdir(dirname($imagePath));
             move_uploaded_file($image['tmp_name'], $imagePath);
         }
@@ -135,7 +133,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           name="quantity"
           value="<?php echo $quantity; ?>"
         />
-      </div>      
+      </div>
       <div class="form-group mb-3">
         <label class="form-label">Product Price</label>
         <input

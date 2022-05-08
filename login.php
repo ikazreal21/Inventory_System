@@ -22,8 +22,14 @@ try
                 )
             );
             $count = $statement->rowCount();
+            $user = $statement->fetchAll(PDO::FETCH_ASSOC);
+            // echo '<pre>';
+            // var_dump($user[0]);
+            // echo '<pre>';
+
             if ($count > 0) {
                 $_SESSION["username"] = $_POST["username"];
+                $_SESSION["email"] = $user[0]["email"];
                 $_SESSION["usertype"] = 'customer';
                 header("location:login_success.php");
             } else {

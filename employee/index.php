@@ -1,3 +1,9 @@
+<?php
+require_once '../database.php';
+require_once 'validation.php';
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>

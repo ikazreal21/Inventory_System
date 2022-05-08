@@ -6,15 +6,15 @@ require_once 'validation.php';
 $search = $_GET['search'] ?? '';
 
 if ($search) {
-    $statement = $pdo->prepare('SELECT * FROM tbl_product WHERE PNAME like :PNAME ORDER BY PDATE DESC');
+    $statement = $pdo->prepare('SELECT * FROM tbl_orders where orderSerial like :PNAME ORDER BY orderDate');
     $statement->bindValue(':PNAME', "%$search%");
 } else {
-    $statement = $pdo->prepare('SELECT * FROM tbl_product ORDER BY PDATE DESC');
+    $statement = $pdo->prepare('SELECT * FROM tbl_orders where Customer_Name = :username ORDER BY orderDate DESC');
+    $statement->bindValue(':username', $_SESSION["username"]);
 }
 
 $statement->execute();
 $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
-
 ?>
 
 <!DOCTYPE html>
@@ -34,22 +34,16 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
     <title>Navitopia</title>
   </head>
   <body>
-    <h1>Products</h1>
+    <h1>Orders</h1>
     <p>
-      <a href="viewcart.php" class="btn btn-success">View Cart</a>
-    </p>
-    <p>
-      <a href="vieworders.php" class="btn btn-primary">View Orders</a>
-    </p>
-    <p>
-      <a href="../logout.php" class="btn btn-info">Logout</a>
+      <a href="index.php" class="btn btn-success">Go Back</a>
     </p>
     <form action="" method="get">
     <div class="input-group mb-3">
       <input
         type="text"
         class="form-control"
-        placeholder="Search Product"
+        placeholder="Search Order By Serial"
         name="search"
         value="<?php echo $search; ?>"
       />
@@ -62,27 +56,31 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Image</th>
-          <th scope="col">Name</th>
-          <th scope="col">Price</th>
+          <th scope="col"># of Products</th>
+          <th scope="col">Product Total</th>
+          <th scope="col">Order Date</th>
+          <th scope="col">Serial</th>
           <th scope="col">Action</th>
         </tr>
       </thead>
       <tbody>
         <?php foreach ($procdata as $i => $item): ?>
           <tr>
-          <th scope="row"><?php echo ++$i; ?></th>
+          <td><?php echo $item['Order_ID']; ?></td>
+          <td><?php echo $item['NumberofProd']; ?></td>
+          <td><?php echo $item['ProdTotal']; ?></td>
+          <td><?php echo $item['orderDate']; ?></td>
+          <td><?php echo $item['orderSerial']; ?></td>
           <td>
-              <img src="<?php echo $item['Pimage']; ?>"  width="300" height="200">
-          </td>
-          <td><?php echo $item['PNAME']; ?></td>
-          <td><?php echo $item['PPRICE']; ?></td>
-          <td>
-            <a href="cart.php?id=<?php echo $item['ID']; ?>" class="btn btn-sm btn-success"> Add to Cart</a>
+            <form style="display: inline-block;" method="POST" action="delete.php">
+              <input type="hidden" name="id" value="<?php echo $item['Order_ID']; ?>">
+              <button type="submit" class="btn btn-sm btn-danger"> View</button>
+            </form>
           </td>
         </tr>
         <?php endforeach;?>
       </tbody>
     </table>
+
   </body>
 </html>
