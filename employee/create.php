@@ -9,11 +9,13 @@ $errors = [];
 $title = '';
 $desc = '';
 $price = '';
+$desc = '';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $title = $_POST['title'];
     $quantity = $_POST['quantity'];
     $price = $_POST['price'];
+    $desc = $_POST['desc'];
     $date = date('Y-m-d H:i:s');
 
     if (!$title) {
@@ -40,12 +42,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             move_uploaded_file($image['tmp_name'], $imagePath);
         }
 
-        $statement = $pdo->prepare("INSERT INTO tbl_product (PNAME, Pimage, PPRICE, PQUAN, PTOTAL, PDATE)
-              VALUES (:PNAME, :Pimage, :PPRICE, :PQUAN, :PTOTAL, :PDATE)"
+        $statement = $pdo->prepare("INSERT INTO tbl_product (PNAME, Pimage, PROD_DESC, PPRICE, PQUAN, PTOTAL, PDATE)
+              VALUES (:PNAME, :Pimage, :PROD_DESC,:PPRICE, :PQUAN, :PTOTAL, :PDATE)"
         );
 
         $statement->bindValue(':PNAME', $title);
         $statement->bindValue(':Pimage', $imagePath);
+        $statement->bindValue(':PROD_DESC', $desc);
         $statement->bindValue(':PPRICE', $price);
         $statement->bindValue(':PQUAN', $quantity);
         $statement->bindValue(':PTOTAL', $total);
@@ -110,6 +113,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         />
       </div>
       <div class="form-group mb-3">
+        <label class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          name="desc"
+          value="<?php echo $desc; ?>"
+          required
+        ></textarea>
+      </div>
+      <div class="form-group mb-3">
         <label class="form-label">Quantity</label>
         <input
           type="number"
@@ -117,6 +129,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           class="form-control"
           name="quantity"
           value="<?php echo $quantity; ?>"
+          required
         />
       </div>
       <div class="form-group mb-3">
@@ -127,6 +140,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           class="form-control"
           name="price"
           value="<?php echo $price; ?>"
+          required
         />
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>

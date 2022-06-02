@@ -28,12 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     foreach ($procdata as $i => $products) {
       ++$i;
       $quantity += $i;
-      $itemArr[] = $products['PROD_ID'];
+      $itemArr[] = $products['Product_id'];
       $productTotal += $products['PROD_TOTAL'];
 
 
-      $statement = $pdo->prepare('DELETE FROM tbl_cart WHERE PROD_ID = :id');
-      $statement->bindValue(':id', $products['PROD_ID']);
+      $statement = $pdo->prepare('DELETE FROM tbl_cart WHERE CART_ID = :id');
+      $statement->bindValue(':id', $products['CART_ID']);
       $statement->execute();
     }
 
@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $mail->addAddress($_SESSION['email'], $customername);
         $mail->isHTML(true); 
         $mail->Subject = 'Order Succesfully Placed';
-        $mail->Body    = 'Your Order is not process with a serial <b>'.$serial.'</b><br>
+        $mail->Body    = 'Your Order is being process with a serial <b>'.$serial.'</b><br>
         you can continue shopping at Navitopia<br>';
         // $mail->Body += 'Happy Shopping';
         if (!$mail->send()) {
@@ -124,7 +124,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <td><?php echo $item['PROD_TOTAL']; ?></td>
           <td>
             <form style="display: inline-block;" method="POST" action="delete.php">
-              <input type="hidden" name="id" value="<?php echo $item['PROD_ID']; ?>">
+              <input type="hidden" name="id" value="<?php echo $item['CART_ID']; ?>">
               <button type="submit" class="btn btn-sm btn-danger"> DELETE</button>
             </form>
           </td>

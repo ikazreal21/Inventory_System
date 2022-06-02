@@ -64,7 +64,7 @@ if (!$procdata) {
           <td><?php echo $item['PROD_TOTAL']; ?></td>
           <td>
             <form style="display: inline-block;" method="POST" action="delete.php">
-              <input type="hidden" name="id" value="<?php echo $item['PROD_ID']; ?>">
+              <input type="hidden" name="id" value="<?php echo $item['CART_ID']; ?>">
               <button type="submit" class="btn btn-sm btn-danger"> DELETE</button>
             </form>
           </td>

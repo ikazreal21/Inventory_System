@@ -25,12 +25,15 @@ $errors = [];
 $title = $prod['PNAME'];
 $quantity = $prod['PQUAN'];
 $price = $prod['PPRICE'];
+$inventory = $prod['PQUAN'];
+$description = $prod['PROD_DESC'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $title = $_POST['title'];
     $quantity = $_POST['quantity'];
     $price = $_POST['price'];
+    $description = $_POST['desc'];
 
     if (!is_dir('../inventory/img')) {
         mkdir('../inventory/img');
@@ -59,11 +62,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             mkdir(dirname($imagePath));
             move_uploaded_file($image['tmp_name'], $imagePath);
         }
-        $statement = $pdo->prepare("UPDATE tbl_product set PNAME = :PNAME, Pimage = :Pimage,
-        PPRICE = :PPRICE, PQUAN = :PQUAN, PTOTAL = :PTOTAL WHERE ID = :id");
+        $statement = $pdo->prepare("UPDATE tbl_product set PNAME = :PNAME, Pimage = :Pimage, PROD_DESC = :PROD_DESC, PPRICE = :PPRICE, PQUAN = :PQUAN, PTOTAL = :PTOTAL WHERE ID = :id");
 
         $statement->bindValue(':PNAME', $title);
         $statement->bindValue(':Pimage', $imagePath);
+        $statement->bindValue(':PROD_DESC', $description);
         $statement->bindValue(':PPRICE', $price);
         $statement->bindValue(':PQUAN', $quantity);
         $statement->bindValue(':PTOTAL', $total);
@@ -105,6 +108,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach?>
       </div>
     <?php endif;?>
+    <?php if ($inventory < 5): ?>
+      <div class="alert alert-warning">
+          <div>Need to Update Quantity of Product Minumum of 5</div>
+      </div>
+    <?php endif;?>
     <form method="POST" action="" enctype="multipart/form-data">
       <div class="form-group mb-3">
         <label class="form-label">Product Image</label>
@@ -122,7 +130,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           class="form-control"
           name="title"
           value="<?php echo $title; ?>"
+          required
         />
+      </div>
+      <div class="form-group mb-3">
+        <label class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          name="desc"
+          required
+        ><?php echo $description; ?></textarea>
       </div>
       <div class="form-group mb-3">
         <label class="form-label">Product Quantity</label>
@@ -132,6 +149,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           class="form-control"
           name="quantity"
           value="<?php echo $quantity; ?>"
+          required
         />
       </div>
       <div class="form-group mb-3">
@@ -142,6 +160,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           class="form-control"
           name="price"
           value="<?php echo $price; ?>"
+          required
         />
       </div>
       <button type="submit" class="btn btn-primary">Submit</button>

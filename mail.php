@@ -15,7 +15,7 @@ $mail->isSMTP();
 $mail->SMTPDebug = 2;
 
 //Set the hostname of the mail server
-$mail->Host = 'smtp.gmail.com';
+$mail->Host = 'smtp.mailgun.org';
 //Use `$mail->Host = gethostbyname('smtp.gmail.com');`
 //if your network does not support SMTP over IPv6,
 //though this may cause issues with TLS
@@ -23,7 +23,7 @@ $mail->Host = 'smtp.gmail.com';
 //Set the SMTP port number:
 // - 465 for SMTP with implicit TLS, a.k.a. RFC8314 SMTPS or
 // - 587 for SMTP+STARTTLS
-$mail->Port = 465;
+$mail->Port = 587;
 
 //Set the encryption mechanism to use:
 // - SMTPS (implicit TLS on port 465) or
@@ -32,18 +32,19 @@ $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
 
 //Whether to use SMTP authentication
 $mail->SMTPAuth = true;
+$mail->SMTPSecure = 'tls';
 
 //Username to use for SMTP authentication - use full email address for gmail
-$mail->Username = 'zakijoaquin21@gmail.com';
+$mail->Username = 'postmaster@mg.iskoline.live';
 
 //Password to use for SMTP authentication
-$mail->Password = 'EA$BjFH9&ov#MzAQejUKod8';
+$mail->Password = 'e199ff9afa250e112a71c7fbf0dfa3b6-5e7fba0f-a8c7e949';
 
 //Set who the message is to be sent from
 //Note that with gmail you can only use your account address (same as `Username`)
 //or predefined aliases that you have configured within your account.
 //Do not use user-submitted addresses in here
-// $mail->setFrom('from@example.com', 'First Last');
+$mail->setFrom('dict2.1.teamone@gmail.com', 'Navitopia');
 
 // //Set an alternative reply-to address
 // //This is a good place to put user-submitted addresses

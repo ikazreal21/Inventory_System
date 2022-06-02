@@ -39,6 +39,6 @@ require_once 'validation.php';
     </div>
   </nav>
 <body>
-    <H1>Welcome to the Admin Section</H1>
+    <H1 style="text-align: center">Welcome to the Admin Section</H1>
 </body>
 </html>

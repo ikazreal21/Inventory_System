@@ -54,10 +54,10 @@ if (isset($message)) {
                 <h3 align="">Navitopia Store Employee Pannel</h3><br />
                 <form method="post">
                      <label>Username</label>
-                     <input type="text" name="username" class="form-control" />
+                     <input type="text" name="username" class="form-control" required/>
                      <br />
                      <label>Password</label>
-                     <input type="password" name="password" class="form-control" />
+                     <input type="password" name="password" class="form-control" required/>
                      <br />
                      <input type="submit" name="login" class="btn btn-info" value="Login" />
                 </form>

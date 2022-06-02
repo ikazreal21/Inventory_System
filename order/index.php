@@ -6,10 +6,10 @@ require_once 'validation.php';
 $search = $_GET['search'] ?? '';
 
 if ($search) {
-    $statement = $pdo->prepare('SELECT * FROM tbl_product WHERE PNAME like :PNAME ORDER BY PDATE DESC');
+    $statement = $pdo->prepare('SELECT * FROM tbl_product WHERE PNAME like :PNAME and PQUAN >= 5 ORDER BY PDATE DESC');
     $statement->bindValue(':PNAME', "%$search%");
 } else {
-    $statement = $pdo->prepare('SELECT * FROM tbl_product ORDER BY PDATE DESC');
+    $statement = $pdo->prepare('SELECT * FROM tbl_product WHERE PQUAN >= 5 ORDER BY PDATE DESC');
 }
 
 $statement->execute();

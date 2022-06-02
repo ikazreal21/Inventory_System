@@ -23,18 +23,29 @@ $errors = [];
 $title = $prod['PNAME'];
 $price = $prod['PPRICE'];
 $image = $prod['Pimage'];
+$description = $prod['PROD_DESC'];
+$existingquantity = $prod['PQUAN'];
 $total = '';
+$newquantity = '';
+$quantity = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $quantity = $_POST['quantity'];
     $date = date('Y-m-d H:i:s');
 
     $total = $quantity * $price;
+    if ($quantity < $existingquantity) {
+      $newquantity = $existingquantity - $quantity;
+      $statement = $pdo->prepare("UPDATE tbl_product set PQUAN = :PQUAN WHERE ID = :id");
+      $statement->bindValue(':PQUAN', $newquantity);
+      $statement->bindValue(':id', $id);
+      $statement->execute();
+    }
 
-    if (empty($errors)) {
+    if (empty($errors) && !empty($newquantity)) {
         $statement = $pdo->prepare("INSERT INTO tbl_cart (PROD_IMAGE, CUSTOMER_NAME, PROD_NAME,
-            PROD_PRICE, PROD_QUANT, PROD_DATE, PROD_TOTAL, PROD_STATUS)
-            VALUES (:PIMAGE, :CUSTOMER, :PNAME, :PPRICE, :PQUAN, :PDATE, :PTOTAL, :PROD_STATUS)"
+            PROD_PRICE, PROD_QUANT, PROD_DATE, PROD_TOTAL, PROD_STATUS, Product_id)
+            VALUES (:PIMAGE, :CUSTOMER, :PNAME, :PPRICE, :PQUAN, :PDATE, :PTOTAL, :PROD_STATUS, :PROD_ID)"
         );
 
         $statement->bindValue(':PIMAGE', $image);
@@ -45,6 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $statement->bindValue(':PDATE', $date);
         $statement->bindValue(':PTOTAL', $total);
         $statement->bindValue(':PROD_STATUS', 'Cart');
+        $statement->bindValue(':PROD_ID', $id);
         $statement->execute();
     }
 
@@ -80,9 +92,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endforeach?>
       </div>
     <?php endif;?>
-    <?php if (empty($errors) && !empty($total)): ?>
+    <?php if (empty($errors) && !empty($total) && !empty($newquantity)): ?>
       <div class="alert alert-success">
           <div>Added to Cart</div>
+      </div>
+    <?php endif;?>
+    <?php if ($quantity >= $existingquantity): ?>
+      <div class="alert alert-warning">
+          <div>Not Enough Quantity</div>
       </div>
     <?php endif;?>
     <form method="POST" action="" enctype="multipart/form-data">
@@ -102,6 +119,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         />
       </div>
       <div class="form-group mb-3">
+        <label class="form-label">Description</label>
+        <textarea
+          class="form-control"
+          name="desc"
+          disabled
+        ><?php echo $description; ?></textarea>
+      </div>
+      <div class="form-group mb-3">
         <label class="form-label">Product Price</label>
         <input
           type="number"
@@ -119,6 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           step=".01"
           class="form-control"
           name="quantity"
+          required
         />
       </div>
       <button type="submit" class="btn btn-primary">Add to Cart</button>
