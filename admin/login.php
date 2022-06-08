@@ -61,6 +61,7 @@ if (isset($message)) {
                      <br />
                      <input type="submit" name="login" class="btn btn-info" value="Login" />
                 </form>
+                <a href="index.php">Admin Page</a>
            </div>
            <br />
       </body>

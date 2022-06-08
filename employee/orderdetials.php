@@ -48,6 +48,19 @@ foreach ($orderArr as $i => $products) {
     // var_dump($prodDetial);
     // echo '<pre>';
 
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') { 
+      $status = $_POST['order_status'];
+      if (empty($errors)) {
+        $statement = $pdo->prepare("UPDATE tbl_orders set Order_Status = :OrderStatus WHERE Order_ID = :id");
+
+        $statement->bindValue(':OrderStatus', $status);
+        $statement->bindValue(':id', $id);
+        $statement->execute();
+
+        header('Location: orderTracking.php');
+      }
+    }
+
 ?>
 
 <!DOCTYPE html>
@@ -68,7 +81,7 @@ foreach ($orderArr as $i => $products) {
   </head>
   <body>
     <p>
-      <a href="vieworders.php" class="btn btn-secondary">Go back</a>
+      <a href="orderTracking.php" class="btn btn-secondary">Go back</a>
     </p>
     <h6>Order ID:  <?php echo $orderid; ?></h6>
     <h6>Order Number of Products:  <?php echo $numofprod; ?></h6>
@@ -83,6 +96,19 @@ foreach ($orderArr as $i => $products) {
     <?php endif;?>
     <h6>Product Total: <?php echo $total; ?></h6>
     <h6>Order Serial: <?php echo $orderSerial; ?></h6>
+    <h6>Update: </h6>
+    <div style="width:200px; margin:6px;">
+      <form action="" method="POST">
+      <select class="form-select form-select-sm mb-2" aria-label=".form-select-sm example" name="order_status">
+					<option selected value="for_approval">For Approval</option>
+					<option value="processing">Processing</option>
+					<option value="delivered">Delivered</option>
+			</select>
+      <div class="form-group">
+        <button class="btn btn-primary form-control btn-sm" name="update">Update</button>
+      </div>
+      </form>
+    </div>
     <h4>Product List:</h3>
     <table class="table">
       <thead>

@@ -138,10 +138,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         />
       </div>
       <div class="form-group mb-3">
+        <label class="form-label">Existing Quantity</label>
+        <input
+          type="number"
+          step="1"
+          class="form-control"
+          name="quantity"
+          value="<?php echo $existingquantity; ?>"
+          disabled
+        />
+      </div>
+      <div class="form-group mb-3">
         <label class="form-label">Quantity</label>
         <input
           type="number"
-          step=".01"
+          step="1"
           class="form-control"
           name="quantity"
           required

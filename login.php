@@ -68,6 +68,7 @@ if (isset($message)) {
                      <input type="submit" name="login" class="btn btn-info" value="Login" />
                 </form>
                 <a href="register.php">Register</a>
+                <a href="./customer/index.php">Homepage</a>
            </div>
            <br />
       </body>

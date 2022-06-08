@@ -58,6 +58,7 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
           <th scope="col"># of Products</th>
           <th scope="col">Product Total</th>
           <th scope="col">Order Date</th>
+          <th scope="col">Customer Name</th>
           <th scope="col">Serial</th>
           <th scope="col">Action</th>
         </tr>
