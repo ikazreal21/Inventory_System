@@ -38,7 +38,7 @@ $mail->SMTPSecure = 'tls';
 $mail->Username = 'postmaster@mg.iskoline.live';
 
 //Password to use for SMTP authentication
-$mail->Password = 'e199ff9afa250e112a71c7fbf0dfa3b6-5e7fba0f-a8c7e949';
+$mail->Password = 'c81473025c75ddc0bb5859d94672bb67-523596d9-d81b917e';
 
 //Set who the message is to be sent from
 //Note that with gmail you can only use your account address (same as `Username`)
