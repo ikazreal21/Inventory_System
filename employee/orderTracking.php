@@ -73,7 +73,11 @@ $procdata = $statement->fetchAll(PDO::FETCH_ASSOC);
           <td><?php echo $item['Customer_Name']; ?></td>
           <td><?php echo $item['orderSerial']; ?></td>
           <td>
-          <a href="orderdetials.php?id=<?php echo $item['Order_ID']; ?>" class="btn btn-sm btn-primary"> View</a>
+          <a href="orderdetails.php?id=<?php echo $item['Order_ID']; ?>" class="btn btn-sm btn-primary"> View</a>
+          <form style="display: inline-block;" method="POST" action="deleteOrder.php">
+              <input type="hidden" name="id" value="<?php echo $item['Order_ID']; ?>">
+              <button type="submit" class="btn btn-sm btn-danger"> DELETE</button>
+          </form>
           </td>
         </tr>
         <?php endforeach;?>
